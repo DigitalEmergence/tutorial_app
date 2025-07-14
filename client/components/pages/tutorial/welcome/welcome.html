@@ -1,0 +1,133 @@
+<html lang="en">
+    <head>
+        <title>Element.js Tutorial - Welcome</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/test123/client/css/global.css">
+        <link rel="stylesheet" href="/test123/client/components/pages/tutorial/welcome/welcome.css">
+        <script src="/test123/shared/dependencies.js" type="module"></script>
+        <script type="module">
+            import { renderDocument$ } from '/test123/shared/element.js';
+            await renderDocument$();
+        </script>
+    </head>
+    <body el-is="welcome" el-id="welcome">
+        <div class="tutorial-container">
+            <!-- Tutorial Navigation -->
+            <nav el-is="tutorial-nav" el-id="nav" data-current="welcome"></nav>
+            
+            <!-- Main Content -->
+            <main class="tutorial-content">
+                <header class="lesson-header">
+                    <h1>Welcome to Element.js</h1>
+                    <p class="lesson-subtitle">Learn the native JavaScript framework that powers JSphere</p>
+                </header>
+
+                <section class="lesson-section">
+                    <h2>What is Element.js?</h2>
+                    <p>Element.js is a revolutionary web framework that works directly in the browser without transpilation. It's the frontend framework that powers JSphere applications.</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <h3>🚀 No Build Step</h3>
+                            <p>Write modern JavaScript that runs directly in browsers</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>⚡ Server-Side Rendering</h3>
+                            <p>Built-in SSR for lightning-fast page loads</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>🔄 Reactive State</h3>
+                            <p>Powerful state management with automatic UI updates</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>📦 Component-Based</h3>
+                            <p>Modular architecture with reusable components</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Your First Component</h2>
+                    <p>Let's start with a simple example. This tutorial page itself is built with Element.js!</p>
+                    
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>hello-world.js</span>
+                        </div>
+                        <pre class="code-block"><code>import { createComponent$ } from './element.js';
+
+createComponent$('hello-world', (el, pageState) => {
+    el.define$({
+        template$: () => `
+            &lt;div class="greeting"&gt;
+                &lt;h2&gt;Hello, Element.js!&lt;/h2&gt;
+                &lt;p&gt;Welcome to the future of web development&lt;/p&gt;
+            &lt;/div&gt;
+        `,
+        style$: () => `
+            [component] .greeting {
+                padding: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border-radius: 8px;
+                text-align: center;
+            }
+        `,
+        onInit$: async () => {
+            console.log('Hello World component initialized!');
+        }
+    });
+});</code></pre>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Interactive Demo</h2>
+                    <p>See this component in action below:</p>
+                    
+                    <div class="demo-container">
+                        <div el-is="hello-world" el-id="demo"></div>
+                    </div>
+                    
+                    <div class="demo-container">
+                        <div el-is="interactive-counter" el-id="counter-demo"></div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Try It Yourself</h2>
+                    <p>Modify the greeting message in the interactive editor below:</p>
+                    
+                    <div el-is="code-editor" el-id="editor" 
+                         data-initial-code='createComponent$("custom-greeting", (el) => {
+    el.define$({
+        template$: () => `
+            <div class="custom-greeting">
+                <h3>Change this message!</h3>
+                <p>Edit the code to customize this greeting</p>
+            </div>
+        `,
+        style$: () => `
+            [component] .custom-greeting {
+                padding: 15px;
+                background: #f0f8ff;
+                border: 2px solid #4a90e2;
+                border-radius: 6px;
+                text-align: center;
+            }
+        `
+    });
+});'></div>
+                </section>
+
+                <!-- Navigation -->
+                <div class="lesson-navigation">
+                    <button el-is="tutorial-button" el-id="next-btn" data-href="/tutorial/lifecycle" data-variant="primary">
+                        Next: Component Lifecycle →
+                    </button>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

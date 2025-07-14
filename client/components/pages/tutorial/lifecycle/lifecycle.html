@@ -1,0 +1,177 @@
+<html lang="en">
+    <head>
+        <title>Element.js Tutorial - Component Lifecycle</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/test123/client/css/global.css">
+        <link rel="stylesheet" href="/test123/client/components/pages/tutorial/welcome/welcome.css">
+        <script src="/test123/shared/dependencies.js" type="module"></script>
+        <script type="module">
+            import { renderDocument$ } from '/test123/shared/element.js';
+            await renderDocument$();
+        </script>
+    </head>
+    <body el-is="tutorial-lifecycle" el-id="tutorial-lifecycle">
+        <div class="tutorial-container">
+            <!-- Tutorial Navigation -->
+            <nav el-is="tutorial-nav" el-id="nav" data-current="lifecycle"></nav>
+            
+            <!-- Main Content -->
+            <main class="tutorial-content">
+                <header class="lesson-header">
+                    <h1>Component Lifecycle</h1>
+                    <p class="lesson-subtitle">Understanding onInit$, onRender$, and onHydrate$ methods</p>
+                </header>
+
+                <section class="lesson-section">
+                    <h2>The Three Lifecycle Methods</h2>
+                    <p>Element.js components have three main lifecycle methods that are called at different stages:</p>
+                    
+                    <div class="lifecycle-diagram">
+                        <div class="lifecycle-step">
+                            <div class="step-number">1</div>
+                            <h3>onInit$</h3>
+                            <p>Called first - set up initial state and data</p>
+                        </div>
+                        <div class="lifecycle-arrow">→</div>
+                        <div class="lifecycle-step">
+                            <div class="step-number">2</div>
+                            <h3>onRender$</h3>
+                            <p>Called after template$ - manipulate DOM elements</p>
+                        </div>
+                        <div class="lifecycle-arrow">→</div>
+                        <div class="lifecycle-step">
+                            <div class="step-number">3</div>
+                            <h3>onHydrate$</h3>
+                            <p>Called last - add event listeners and interactivity</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Lifecycle in Action</h2>
+                    <p>Watch the lifecycle methods execute in real-time with this interactive counter:</p>
+                    
+                    <div class="demo-container">
+                        <div el-is="lifecycle-demo" el-id="demo"></div>
+                        <div class="lifecycle-log" id="lifecycle-log">
+                            <h4>Lifecycle Log:</h4>
+                            <div class="log-entries"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Server vs Client Rendering</h2>
+                    <p>The lifecycle behaves differently depending on whether the component is rendered on the server or client:</p>
+                    
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h3>🖥️ Server-Side Rendering (SSR)</h3>
+                            <ul>
+                                <li><strong>onInit$</strong> - Runs on server</li>
+                                <li><strong>onRender$</strong> - Runs on server</li>
+                                <li><strong>onHydrate$</strong> - Runs on client after page load</li>
+                            </ul>
+                            <p class="note">Perfect for SEO and fast initial page loads</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h3>🌐 Client-Side Rendering (CSR)</h3>
+                            <ul>
+                                <li><strong>onInit$</strong> - Runs on client</li>
+                                <li><strong>onRender$</strong> - Runs on client</li>
+                                <li><strong>onHydrate$</strong> - Runs on client immediately after</li>
+                            </ul>
+                            <p class="note">Great for dynamic, interactive applications</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Build Your Own Lifecycle Component</h2>
+                    <p>Create a component that demonstrates all three lifecycle methods:</p>
+                    
+                    <div el-is="code-editor" el-id="lifecycle-editor" 
+                         data-initial-code='createComponent$("my-lifecycle", (el) => {
+    let initTime, renderTime, hydrateTime;
+    
+    el.define$({
+        template$: () => `
+            <div class="lifecycle-component">
+                <h3>My Lifecycle Component</h3>
+                <div class="times">
+                    <div>Init: <span id="init-time">Not yet</span></div>
+                    <div>Render: <span id="render-time">Not yet</span></div>
+                    <div>Hydrate: <span id="hydrate-time">Not yet</span></div>
+                </div>
+                <button id="test-button">Click me!</button>
+            </div>
+        `,
+        style$: () => `
+            [component] .lifecycle-component {
+                padding: 20px;
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                background: white;
+            }
+            [component] .times {
+                margin: 15px 0;
+                font-family: monospace;
+            }
+            [component] button {
+                background: #48bb78;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        `,
+        onInit$: async () => {
+            initTime = new Date().toLocaleTimeString();
+            console.log("onInit$ called at:", initTime);
+        },
+        onRender$: async () => {
+            renderTime = new Date().toLocaleTimeString();
+            console.log("onRender$ called at:", renderTime);
+            
+            // Update the display
+            const initSpan = el.querySelector("#init-time");
+            if (initSpan) initSpan.textContent = initTime;
+            
+            const renderSpan = el.querySelector("#render-time");
+            if (renderSpan) renderSpan.textContent = renderTime;
+        },
+        onHydrate$: async () => {
+            hydrateTime = new Date().toLocaleTimeString();
+            console.log("onHydrate$ called at:", hydrateTime);
+            
+            // Update the display
+            const hydrateSpan = el.querySelector("#hydrate-time");
+            if (hydrateSpan) hydrateSpan.textContent = hydrateTime;
+            
+            // Add event listener (only in hydrate!)
+            const button = el.querySelector("#test-button");
+            if (button) {
+                button.addEventListener("click", () => {
+                    alert("Button clicked! Event listener added in onHydrate$");
+                });
+            }
+        }
+    });
+});'></div>
+                </section>
+
+                <!-- Navigation -->
+                <div class="lesson-navigation">
+                    <button el-is="tutorial-button" el-id="prev-btn" data-href="/tutorial/welcome">
+                        ← Previous: Welcome
+                    </button>
+                    <button el-is="tutorial-button" el-id="next-btn" data-href="/tutorial/state" data-variant="primary">
+                        Next: State Management →
+                    </button>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+.container {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.title {
+    font-family: var(--font-family);
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+#datetime {
+    font-family: var(--font-family);
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.tutorial-links {
+    margin-top: 3rem;
+    max-width: 800px;
+    width: 100%;
+}
+
+.tutorial-links h2 {
+    font-family: var(--font-family);
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.tutorial-links p {
+    font-family: var(--font-family);
+    color: #cccccc;
+    margin-bottom: 2rem;
+}
+
+.lesson-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.lesson-card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.lesson-card:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.lesson-card h3 {
+    font-family: var(--font-family);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.lesson-card p {
+    font-family: var(--font-family);
+    font-size: 0.9rem;
+    color: #cccccc;
+    margin: 0;
+}

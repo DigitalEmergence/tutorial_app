@@ -1,0 +1,40 @@
+<html lang="en">
+    <head>
+        <title>Powered By JSphere</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/test123/client/css/global.css">
+        <link rel="stylesheet" href="/test123/client/components/pages/index/index.css">
+        <script src="/test123/shared/dependencies.js" type="module"></script>
+        <script type="module">
+            import { renderDocument$ } from '/test123/shared/element.js';
+            await renderDocument$();
+        </script>
+    </head>
+    <body el-is="index" el-id="index">
+        <div class="container">
+            <img src="/test123/client/assets/images/jsphere_logo.webp" alt="Logo" class="logo">
+            <div class="title">Element.js Interactive Tutorial</div>
+            <div id="datetime"></div>
+            
+            <div class="tutorial-links">
+                <h2>Learn Element.js</h2>
+                <p>Follow our interactive tutorial to master Element.js framework:</p>
+                <div class="lesson-grid">
+                    <a href="/welcome" class="lesson-card">
+                        <h3>1. Welcome</h3>
+                        <p>Introduction and basic components</p>
+                    </a>
+                    <a href="/lifecycle" class="lesson-card">
+                        <h3>2. Lifecycle</h3>
+                        <p>Component lifecycle methods</p>
+                    </a>
+                    <a href="/state" class="lesson-card">
+                        <h3>3. State Management</h3>
+                        <p>Reactive state with observe$</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

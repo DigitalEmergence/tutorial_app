@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element.js Interactive Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+    </style>
+    <script src="/test123/shared/dependencies.js" type="module"></script>
+    <script type="module">
+        import { renderDocument$ } from '/test123/shared/element.js';
+        await renderDocument$();
+    </script>
+</head>
+<body el-is="document" el-id="test-page">
+    <div class="test-container">
+        <h1>Element.js Interactive Demo Test</h1>
+        
+        <div class="test-section">
+            <h2>Navigation Component Test</h2>
+            <div el-is="tutorial-nav" el-id="nav-test" data-current="welcome"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Interactive Counter Test</h2>
+            <div el-is="interactive-counter" el-id="counter-test"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Hello World Component Test</h2>
+            <div el-is="hello-world" el-id="hello-test"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Button Component Test</h2>
+            <div el-is="tutorial-button" el-id="button-test" data-href="/tutorial/lifecycle" data-variant="primary">
+                Test Navigation Button
+            </div>
+        </div>
+    </div>
+</body>
+</html>

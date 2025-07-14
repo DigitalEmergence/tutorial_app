@@ -1,0 +1,237 @@
+<html lang="en">
+    <head>
+        <title>Element.js Tutorial - State Management</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/test123/client/css/global.css">
+        <link rel="stylesheet" href="/test123/client/components/pages/tutorial/welcome/welcome.css">
+        <script src="/test123/shared/dependencies.js" type="module"></script>
+        <script type="module">
+            import { renderDocument$ } from '/test123/shared/element.js';
+            await renderDocument$();
+        </script>
+    </head>
+    <body el-is="tutorial-state" el-id="tutorial-state">
+        <div class="tutorial-container">
+            <!-- Tutorial Navigation -->
+            <nav el-is="tutorial-nav" el-id="nav" data-current="state"></nav>
+            
+            <!-- Main Content -->
+            <main class="tutorial-content">
+                <header class="lesson-header">
+                    <h1>State Management</h1>
+                    <p class="lesson-subtitle">Reactive data with observe$ and component state$</p>
+                </header>
+
+                <section class="lesson-section">
+                    <h2>Component State</h2>
+                    <p>Every Element.js component has a built-in <code>state$</code> object for managing local component data. Changes to state automatically trigger UI updates.</p>
+                    
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>Basic State Usage</span>
+                        </div>
+                        <pre class="code-block"><code>createComponent$('my-component', (el) => {
+    el.define$({
+        onInit$: async () => {
+            // Initialize state
+            el.state$.count = 0;
+            el.state$.message = 'Hello World';
+        },
+        onRender$: async () => {
+            // Use state in rendering
+            const display = el.querySelector('.display');
+            display.textContent = `Count: ${el.state$.count}`;
+        }
+    });
+});</code></pre>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Reactive State with observe$</h2>
+                    <p>For more advanced state management, Element.js provides the <code>observe$</code> function that creates reactive objects with automatic change detection.</p>
+                    
+                    <div class="demo-container">
+                        <div el-is="reactive-demo" el-id="reactive-demo"></div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Global Application State</h2>
+                    <p>Element.js includes a global <code>appState$</code> object that persists across page reloads and can be shared between components.</p>
+                    
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span>Using Global State</span>
+                        </div>
+                        <pre class="code-block"><code>import { appState$ } from './element.js';
+
+createComponent$('global-state-demo', (el) => {
+    el.define$({
+        onInit$: async () => {
+            // Access global state
+            if (!appState$.user) {
+                appState$.user = { name: 'Guest', visits: 0 };
+            }
+            appState$.user.visits++;
+        },
+        onRender$: async () => {
+            // Display global state
+            el.querySelector('.user-info').textContent = 
+                `Welcome ${appState$.user.name}! Visit #${appState$.user.visits}`;
+        }
+    });
+});</code></pre>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Interactive Todo List</h2>
+                    <p>Build a complete todo list that demonstrates state management, reactive updates, and data persistence:</p>
+                    
+                    <div class="demo-container">
+                        <div el-is="todo-demo" el-id="todo-demo"></div>
+                    </div>
+                </section>
+
+                <section class="lesson-section">
+                    <h2>Build Your Own State Component</h2>
+                    <p>Create a shopping cart component that uses reactive state management:</p>
+                    
+                    <div el-is="code-editor" el-id="state-editor" 
+                         data-initial-code='import { observe$ } from "/test123/shared/element.js";
+
+createComponent$("shopping-cart", (el) => {
+    // Create reactive state
+    const [cart, watchCart] = observe$({
+        items: [],
+        total: 0
+    });
+    
+    el.define$({
+        template$: () => `
+            <div class="shopping-cart">
+                <h3>Shopping Cart</h3>
+                <div class="cart-items"></div>
+                <div class="cart-total">Total: $<span class="total-amount">0.00</span></div>
+                <div class="cart-controls">
+                    <input type="text" class="item-input" placeholder="Item name">
+                    <input type="number" class="price-input" placeholder="Price" step="0.01">
+                    <button class="add-btn">Add Item</button>
+                    <button class="clear-btn">Clear Cart</button>
+                </div>
+            </div>
+        `,
+        style$: () => `
+            [component] .shopping-cart {
+                border: 2px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 20px;
+                background: white;
+            }
+            [component] .cart-items {
+                min-height: 100px;
+                margin: 15px 0;
+                padding: 10px;
+                background: #f7fafc;
+                border-radius: 4px;
+            }
+            [component] .cart-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 5px 0;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            [component] .cart-total {
+                font-weight: bold;
+                font-size: 1.2rem;
+                margin: 15px 0;
+                color: #2d3748;
+            }
+            [component] .cart-controls input {
+                margin: 5px;
+                padding: 8px;
+                border: 1px solid #cbd5e0;
+                border-radius: 4px;
+            }
+            [component] .cart-controls button {
+                margin: 5px;
+                padding: 8px 16px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            [component] .add-btn {
+                background: #48bb78;
+                color: white;
+            }
+            [component] .clear-btn {
+                background: #e53e3e;
+                color: white;
+            }
+        `,
+        onInit$: async () => {
+            // Watch for cart changes
+            watchCart((target, key, value) => {
+                updateCartDisplay();
+            });
+        },
+        onHydrate$: async () => {
+            const addBtn = el.querySelector(".add-btn");
+            const clearBtn = el.querySelector(".clear-btn");
+            const itemInput = el.querySelector(".item-input");
+            const priceInput = el.querySelector(".price-input");
+            
+            addBtn.addEventListener("click", () => {
+                const name = itemInput.value.trim();
+                const price = parseFloat(priceInput.value) || 0;
+                
+                if (name) {
+                    cart.items.push({ name, price });
+                    cart.total = cart.items.reduce((sum, item) => sum + item.price, 0);
+                    itemInput.value = "";
+                    priceInput.value = "";
+                }
+            });
+            
+            clearBtn.addEventListener("click", () => {
+                cart.items.length = 0;
+                cart.total = 0;
+            });
+        }
+    });
+    
+    function updateCartDisplay() {
+        const itemsContainer = el.querySelector(".cart-items");
+        const totalElement = el.querySelector(".total-amount");
+        
+        if (itemsContainer) {
+            itemsContainer.innerHTML = cart.items.map(item => 
+                `<div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>$${item.price.toFixed(2)}</span>
+                </div>`
+            ).join("") || "<p>Cart is empty</p>";
+        }
+        
+        if (totalElement) {
+            totalElement.textContent = cart.total.toFixed(2);
+        }
+    }
+});'></div>
+                </section>
+
+                <!-- Navigation -->
+                <div class="lesson-navigation">
+                    <button el-is="tutorial-button" el-id="prev-btn" data-href="/tutorial/lifecycle">
+                        ← Previous: Lifecycle
+                    </button>
+                    <button el-is="tutorial-button" el-id="next-btn" data-href="/tutorial/communication" data-variant="primary">
+                        Next: Communication →
+                    </button>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
