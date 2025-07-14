@@ -10,7 +10,7 @@ createComponent$('code-editor', (el, pageState) => {
                 </div>
                 <div class="editor-content">
                     <textarea class="code-input" placeholder="Write your Element.js component here...">
-import { createComponent$ } from '/test123/shared/element.js';
+import { createComponent$ } from '/tutorial_app/shared/element.js';
 
 createComponent$('my-component', (el, pageState) => {
     el.define$({

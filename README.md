@@ -78,7 +78,7 @@ appState$.user = { name: "John", preferences: {} };
 ## File Structure
 
 ```
-test123/
+tutorial_app/
 ├── client/
 │   ├── components/
 │   │   └── pages/

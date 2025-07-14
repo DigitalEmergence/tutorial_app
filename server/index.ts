@@ -15,7 +15,7 @@ export async function onGET(ctx: ServerContext): Promise<Response> {
             if (validLessons.includes(lesson)) {
                 console.log('Serving tutorial lesson:', lesson);
                 const document = await renderDocument$({ 
-                    file: `/test123/client/components/pages/tutorial/${lesson}/${lesson}.html` 
+                    file: `/tutorial_app/client/components/pages/tutorial/${lesson}/${lesson}.html` 
                 }, ctx) as Element;
                 
                 return ctx.response.html('<!doctype html>' + document.outerHTML);
@@ -29,7 +29,7 @@ export async function onGET(ctx: ServerContext): Promise<Response> {
         if (tutorialLessons.includes(requestedFile)) {
             console.log('Serving tutorial lesson directly:', requestedFile);
             const document = await renderDocument$({ 
-                file: `/test123/client/components/pages/tutorial/${requestedFile}/${requestedFile}.html` 
+                file: `/tutorial_app/client/components/pages/tutorial/${requestedFile}/${requestedFile}.html` 
             }, ctx) as Element;
             
             return ctx.response.html('<!doctype html>' + document.outerHTML);
@@ -38,7 +38,7 @@ export async function onGET(ctx: ServerContext): Promise<Response> {
         // Default to index page or other pages
         console.log('Serving page:', requestedFile);
         const document = await renderDocument$({ 
-            file: `/test123/client/components/pages/${requestedFile}/${requestedFile}.html` 
+            file: `/tutorial_app/client/components/pages/${requestedFile}/${requestedFile}.html` 
         }, ctx) as Element;
         
         return ctx.response.html('<!doctype html>' + document.outerHTML);
